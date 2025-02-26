@@ -1,7 +1,5 @@
 package br.dev.eliangela.invoice_reminder.config;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,28 +14,19 @@ public class PropertiesFileConfiguration {
     @Value("#{${security.white-list}}")
     private List<String> securityWhiteList;
 
-    public String getKeycloakClientId() {
-        return "";
-    }
+    @Value("#{${billing.days-send-reminder-before}}")
+    private List<Integer> daysSendReminderBefore;
 
-    public String getKeycloakGrantType() {
-        return "";
-    }
+    @Value("#{${billing.days-send-reminder-after}}")
+    private List<Integer> daysSendReminderAfter;
 
-    public String getKeycloakUsername() {
-        return "";
-    }
+    @Value("#{${messages.whatsapp.url}}")
+    private String whatsappUrl;
 
-    public String getKeycloakPassword() {
-        return "";
-    }
+    @Value("#{${messages.whatsapp.token}}")
+    private String whatsappToken;
 
-    public URI getKeycloakUrl() {
-        try {
-            return new URI("");
-        } catch (URISyntaxException e) {
-            return null;
-        }
-    }
+    @Value("#{${invoice.base-url}}")
+    private String invoiceBaseUrl;
 
 }
