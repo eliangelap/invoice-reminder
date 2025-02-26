@@ -1,14 +1,21 @@
-package br.dev.eliangela.invoice_reminder.core.model.schema.invoices;
+package br.dev.eliangela.invoice_reminder.core.model.schema.invoice;
 
-import jakarta.persistence.*;
-import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+import lombok.Getter;
+
 @Entity
-@Table(name = "tblinvoices")
 @Getter
+@Table(name = "tblinvoices")
 public class InvoiceSchema {
 
     @Id
@@ -34,8 +41,14 @@ public class InvoiceSchema {
     private BigDecimal adjustment;
     private Integer addedfrom;
     private String hash;
+
+    /**
+     * 1: Ativo
+     * 2: Pago
+     * 5: Cancelado
+     */
     private Integer status;
-    
+
     @Lob
     private String clientnote;
 
@@ -62,7 +75,7 @@ public class InvoiceSchema {
     private Integer totalCycles;
     private Integer isRecurringFrom;
     private LocalDate lastRecurringDate;
-    
+
     @Lob
     private String terms;
 
@@ -83,7 +96,7 @@ public class InvoiceSchema {
     private Integer projectId;
     private Integer subscriptionId;
     private String shortLink;
-    
+
     @Lob
     private String bancoInterDadosCobranca;
 
@@ -94,17 +107,17 @@ public class InvoiceSchema {
     private boolean isFinancialRecordNameUpdated;
     private boolean isAmountNameUpdated;
     private boolean isNotaFiscalGerada;
-    
+
     @Lob
     private String biPix;
-    
+
     private LocalDateTime biPixCriadoEm;
-    
+
     private String biNossoNumero;
-    
+
     @Lob
     private String biBoleto;
-    
+
     private LocalDateTime bancoInterBoletoGeradoAt;
     private LocalDateTime emailCobrancaEnviadoRecorrenteAt;
     private LocalDate biNextMailingDay;
@@ -112,7 +125,7 @@ public class InvoiceSchema {
     private Integer biTentativasCriarBoleto;
     private boolean taskLastDueReminder;
     private LocalDateTime pagamentoAtrasadoEmailEnviadoAt;
-    
+
     @Column(nullable = false, updatable = true)
     private LocalDateTime updatedAt;
 
@@ -125,10 +138,10 @@ public class InvoiceSchema {
 
     @Column(name = "cn_aviso_fatura_a_vencer_enviado_at")
     private LocalDateTime cnAvisoFaturaAVencerEnviadoAt;
-    
+
     @Column(name = "cn_aviso_fatura_a_vencer_qtd_tentativas")
     private Integer cnAvisoFaturaAVencerQtdTentativas;
-    
+
     private LocalDateTime cnAvisoSuspensaoEnviadoAt;
     private Integer cnAvisoSuspensaoQtdTentativas;
     private LocalDateTime cnAvisoDiaDoVencimentoEnviadoAt;
@@ -136,4 +149,8 @@ public class InvoiceSchema {
     private LocalDateTime cnSuspensoEnviadoAt;
     private Integer cnSuspensoQtdTentativas;
 
+    @Override
+    public String toString() {
+        return "id: " + id + ", dueDate: " + duedate + ", cancelOverdueReminders: " + cancelOverdueReminders;
+    }
 }
