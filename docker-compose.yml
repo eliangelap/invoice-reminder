@@ -6,6 +6,7 @@ services:
     restart: unless-stopped
     environment:
       - TZ=America/Sao_Paulo
+      - SPRING_PROFILES_ACTIVE=prod
     volumes:
       - ./logs:/app/logs
     networks:
