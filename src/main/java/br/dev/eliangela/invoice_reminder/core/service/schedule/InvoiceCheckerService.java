@@ -26,10 +26,14 @@ public class InvoiceCheckerService {
     @Scheduled(cron = "0 * * * * *")
     public void doCheckInvoices() {
 
+        System.out.println("Checando faturas...");
+
         List<InvoiceSchema> overdueInvoices = listOverdueInvoiceUseCase.execute(null).getOverdueInvoicesList();
+        System.out.println("Notificando faturas vencidas..." + overdueInvoices.size() + " faturas.");
         callSendMessageUseCase(overdueInvoices);
 
         List<InvoiceSchema> invoices = listReminderInvoiceUseCase.execute(null).getInvoicesDueList();
+        System.out.println("Notificando faturas a vencer... " + invoices.size() + " faturas.");
         callSendMessageUseCase(invoices);
     }
 
