@@ -25,20 +25,21 @@ public class CreateReminderTextUseCase
         extends UseCase<CreateReminderTextUseCase.InputValues, CreateReminderTextUseCase.OutputValues> {
 
     private static final String TEXT_TEMPLATE = """
-            Prezado(a) {name},
+            Olá, {clientName}! Tudo bem?
 
-            Gostaríamos de lembrá-lo(a) sobre a data de vencimento da fatura associada à sua conta. {additionalMessage}
+            Estamos passando para lembrar que a fatura relacionada aos serviços prestados {additionalMessage}.
+            Agradecemos por dar uma olhadinha nisso.
 
             Detalhes da Fatura:
             - Número da Fatura: {invoiceNumber}
             - Data de Vencimento: {invoiceDuedate}
             - Valor Total: {invoiceTotal}
-            - Descrição do Serviço:
+            - Serviços Prestados:
             {serviceDescription}
 
-            Para acessar a fatura completa e efetuar o pagamento, por favor, utilize o seguinte link: {invoiceLink}
+            Para acessar a fatura completa e fazer o pagamento, é só clicar no link: {invoiceLink}
 
-            Agradecemos pela sua cooperação.
+            Obrigado pela atenção e pela colaboração! Se precisar de alguma coisa, estamos à disposição. 😊
 
             Atenciosamente,
             {companyName}
@@ -69,7 +70,7 @@ public class CreateReminderTextUseCase
         String invoiceTotal = CurrencyUtil.getFormattedCurrency(invoice.getTotal());
 
         List<OptionSchema> option = optionRepository.findByName("companyname").orElse(null);
-        String companyName = option != null ? option.get(0).getValue() : "Paes Soluções";
+        String companyName = option != null ? option.get(0).getValue() : "";
 
         String serviceDescription = getInvoiceItemsUseCase
                 .execute(new ListInvoiceItemsUseCase.InputValues(invoiceId))
@@ -79,7 +80,7 @@ public class CreateReminderTextUseCase
                 .replace("{invoiceId}", String.valueOf(invoiceId))
                 .replace("{invoiceHash}", invoice.getHash());
 
-        String textMessage = TEXT_TEMPLATE.replace("{name}", clientName)
+        String textMessage = TEXT_TEMPLATE.replace("{clientName}", clientName)
                 .replace("{invoiceNumber}", invoiceFormattedNumber)
                 .replace("{invoiceDuedate}", formattedInvoiceDuedate)
                 .replace("{invoiceTotal}", invoiceTotal)
@@ -94,8 +95,8 @@ public class CreateReminderTextUseCase
     private String getAdditionalMessage(LocalDate dueDate) {
 
         return dueDate.isBefore(LocalDate.now())
-                ? "O não pagamento acarretará a suspensão do serviço"
-                : "Agradecemos sua atenção a este assunto.";
+                ? "venceu recentemente"
+                : "irá vencer em breve";
     }
 
     @Value
