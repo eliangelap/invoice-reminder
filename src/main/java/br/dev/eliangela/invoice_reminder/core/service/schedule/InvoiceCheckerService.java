@@ -23,7 +23,7 @@ public class InvoiceCheckerService {
     private final ListReminderInvoiceUseCase listReminderInvoiceUseCase;
 
     @Async
-    @Scheduled(cron = "0 0 17 * * *")
+    @Scheduled(cron = "0 25 17 * * *")
     public void doCheckInvoices() {
 
         List<InvoiceSchema> overdueInvoices = listOverdueInvoiceUseCase.execute(null).getOverdueInvoicesList();
