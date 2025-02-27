@@ -33,12 +33,12 @@ public class DocsConfiguration {
                         .addSchemas("TagsSchema", new Schema<Map<String, String>>()
                                 .addProperty("safra", new StringSchema().example("20242025"))
                                 .addProperty("matricula", new StringSchema().example("99999"))))
-                .info(new Info().title("API Sustainability")
-                        .description("Gerenciamento de GeoJSON para sustentabilidade")
+                .info(new Info().title("Invoice Reminder")
+                        .description("Lembretes para vencimentos de faturas")
                         .version("1.0")
                         .contact(new Contact().name("Eliangela Menezes Palharini Paes")
-                                .email("emenezes@coamo.com.br"))
-                        .license(new License().name("Equipe ASTEC - Coamo Agroindustrial Cooperativa")));
+                                .email("eliangela@eliangela.dev.br"))
+                        .license(new License().name("Eliangela Developer")));
     }
 
     private SecurityScheme createAPIKeyScheme() {
