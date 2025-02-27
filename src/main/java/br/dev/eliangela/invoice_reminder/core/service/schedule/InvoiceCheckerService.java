@@ -23,7 +23,7 @@ public class InvoiceCheckerService {
     private final ListReminderInvoiceUseCase listReminderInvoiceUseCase;
 
     @Async
-    @Scheduled(cron = "0 25 17 * * *")
+    @Scheduled(cron = "0 * * * * *")
     public void doCheckInvoices() {
 
         List<InvoiceSchema> overdueInvoices = listOverdueInvoiceUseCase.execute(null).getOverdueInvoicesList();
@@ -36,11 +36,14 @@ public class InvoiceCheckerService {
     private void callSendMessageUseCase(List<InvoiceSchema> invoices) {
         for (InvoiceSchema invoice : invoices) {
             if (invoice.getCancelOverdueReminders() == 1) {
+                System.out.println("Fatura marcada para não notificar: " + invoice.getFormattedNumber());
                 continue;
             }
 
             String message = createReminderTextUseCase
                     .execute(new CreateReminderTextUseCase.InputValues(invoice.getId())).getMessage();
+
+            System.out.println("Enviando notificação para cliente: " + invoice.getClientid() + " - Mensagem: " + message);
 
             sendWhatsappMessageUseCase
                     .execute(new SendWhatsappMessageUseCase.InputValues(invoice.getClientid(), message));
