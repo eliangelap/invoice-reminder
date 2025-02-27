@@ -32,6 +32,14 @@ ENV TZ="America/Sao_Paulo"
 ENV JAVA_HOME /usr/lib/jvm/java-21-openjdk-amd64/
 RUN export JAVA_HOME
 
+RUN export SPRING_PROFILES_ACTIVE
+RUN export SPRING_DATASOURCE_URL
+RUN export SPRING_DATASOURCE_USERNAME
+RUN export SPRING_DATASOURCE_PASSWORD
+RUN export MESSAGES_WHATSAPP_URL
+RUN export MESSAGES_WHATSAPP_TOKEN
+RUN export INVOICE_BASE_URL
+
 RUN addgroup -S -g 10001 appusr && adduser -S -g 10001 appusr -G appusr
 USER appusr
 
